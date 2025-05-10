@@ -19,7 +19,7 @@ export function Counter(props: any) {
     useEffect(() => {
         alert("componentDidUpdate: "+
         "count has been updated")
-    }, [count]);
+    }, [count]); //Run each time when count change
 
     const increment =()=>{
         setCount((prevCount) => prevCount+1)

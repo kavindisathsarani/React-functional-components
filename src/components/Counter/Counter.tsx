@@ -1,149 +1,44 @@
 import './Counter.css'
 import { useReducer } from "react";
 import { Message } from "../Message/Message";
-import {counterReducer} from "../../reducers/counterReducer";
+import {counterSlice} from "../../slices/counterSlice";
+import {useDispatch, useSelector} from "react-redux";
+import {RootState} from "../../store/store";
+import {decrement, increment} from "../../actions/counterActions";
 
 
 
 // import {useEffect, useState} from "react";
 export function Counter() {
 
-    const [state, dispatch] = useReducer(
-        counterReducer, {
+    /*const [state, dispatch] = useReducer(
+        counterSlice, {
             count: 0,
             error: null
         }
-    );
+    );*/
 
-    /*const [count,setCount]=useState(0);
 
-    useEffect(() => {
-        alert("componentDidMount: " +
-            "Component has been mounted! " +
-            "Props: " + props.data);
 
-        return () => {
-            alert("componentWillUnmount: " +
-                "Component is being removed");
-        }
-    },[]); //Run Only Once.deps=Dependencies
+    const dispatch = useDispatch();
+    /*const count= useSelector((state:CounterState) => state.count);
+    const error=useSelector((state:CounterState) => state.error);*/
 
-    useEffect(() => {
-        alert("componentDidUpdate: "+
-        "count has been updated")
-    }, [count]); //Run each time when count change
-*/
-    /*const increment =()=>{
-        setCount((prevCount) => prevCount+1)
-    }
+    const{count,error} = useSelector(
+        (state:RootState) => state.counter
+    )
 
-    const decrement =()=>{
-        setCount((prevCount) => prevCount-1)
-    }
-*/
     return (
         <div className="counter">
             <h1>React Counter(Functional Components)</h1>
-            <h2>Count:{state.count}</h2>
-            {state.error && <span className="error">{state.error}</span>}
+            <h2>Count:{count}</h2>
+            {error && <span className="error">{error}</span>}
             <div>
-                <button className="button" onClick={() => dispatch({ type: 'increment' })}>+</button>
-                <button className="button" onClick={() => dispatch({ type: 'decrement' })}>-</button>
+                <button className="button" onClick={() => dispatch(increment())}>+</button>
+                <button className="button" onClick={() => dispatch(decrement())}>-</button>
             </div>
             <Message/>
         </div>
     );
 }
 
-/*
-import './Counter.css'
-import {useReducer} from "react";
-import {Message} from "../Message/Message";
-
-//Define the state of the component
-interface State {
-    count: number,
-    error: string | null
-}
-
-//Defines the actions managed within the counter app
-interface Action {
-    type: 'increment' | 'decrement'
-}
-
-function reducer(state: State, action: Action) {
-    const {type} = action;
-    switch (type) {
-        case 'increment':
-            const newCount = state.count + 1;
-            const hasError = newCount > 5;
-            return {
-                ...state,
-                count: hasError ? state.count : newCount,
-                error: hasError ? 'Maximum value Reached' : null
-            }
-        case 'decrement': {
-            const newCount = state.count - 1;
-            const hasError = newCount < 0;
-            return {
-                ...state,
-                count: hasError ? state.count : newCount,
-                error: hasError ? 'Minimum value Reached' : null
-            }
-        }
-        default:
-            return state
-
-    }
-
-}
-
-// import {useEffect, useState} from "react";
-export function Counter(data: any) {
-
-    const [state, dispatch] = useReducer(
-        reducer, {
-            count: 0,
-            error: null
-        }
-    );
-
-    /!*const [count,setCount]=useState(0);
-
-    useEffect(() => {
-        alert("componentDidMount: " +
-            "Component has been mounted! " +
-            "Props: " + props.data);
-
-        return () => {
-            alert("componentWillUnmount: " +
-                "Component is being removed");
-        }
-    },[]); //Run Only Once.deps=Dependencies
-
-    useEffect(() => {
-        alert("componentDidUpdate: "+
-        "count has been updated")
-    }, [count]); //Run each time when count change
-*!/
-    /!*const increment =()=>{
-        setCount((prevCount) => prevCount+1)
-    }
-
-    const decrement =()=>{
-        setCount((prevCount) => prevCount-1)
-    }
-*!/
-    return (
-        <div className="counter">
-            <h1>React Counter(Functional Components)</h1>
-            <h2>Count:{state.count}</h2>
-            {state.error && <span className="error">{state.error}</span>}
-            <div>
-                <button className="button" onClick={() => dispatch({type: 'increment'})}>+</button>
-                <button className="button" onClick={() => dispatch({type: 'decrement'})}>-</button>
-            </div>
-            <Message data={data}/>
-        </div>
-    );
-}*/
